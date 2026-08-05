@@ -106,6 +106,28 @@ The [Developer Interface](https://httpx2.pydantic.dev/api/) provides a comprehen
 
 To find out about tools that integrate with HTTPX, see [Third Party Packages](https://httpx2.pydantic.dev/third_party_packages/).
 
+## Observability with Pydantic Logfire
+
+Install Logfire with HTTPX instrumentation support:
+
+```shell
+pip install 'logfire[httpx]'
+```
+
+HTTPX2 works out of the box with [Pydantic Logfire](https://pydantic.dev/logfire), our observability platform built on OpenTelemetry. One line instruments every request, giving you traces, timings, and status codes with no other changes:
+
+```python
+import logfire
+import httpx2
+
+logfire.configure()
+logfire.instrument_httpx()
+
+httpx2.get("https://pydantic.dev/")
+```
+
+This works the same way for explicit `httpx2.Client()` and `httpx2.AsyncClient()` instances, and you can scope instrumentation to a single client by passing it in: `logfire.instrument_httpx(client)`. Pass `capture_all=True` to also record headers and bodies. See the [Logfire HTTPX docs](https://logfire.pydantic.dev/docs/integrations/http-clients/httpx/) for the full set of options.
+
 ## Contribute
 
 If you want to contribute with HTTPX2 check out the [Contributing Guide](https://httpx2.pydantic.dev/contributing/) to learn how to start.
